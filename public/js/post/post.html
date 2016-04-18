@@ -4,15 +4,25 @@
 
 	<div class="postTitle">
     <!-- display the post title -->
-		<h2></h2>
+		<h2>
+      <span ng-hide="editFormClicked">{{post.title}}</span>
+      <input ng-show="editFormClicked" ng-model="post.title"></input>
+    </h2>
     <!-- add functionality that makes this Edit button work -->
-		<button type="button" class="btn btn-primary">Edit</button>
+		<button type="button" ng-hide="editFormClicked"class="btn btn-primary" ng-click="editForm()">Edit</button>
+    <button type="submit" class="btn btn-primary" ng-click="savePost()" ng-show="editFormClicked">Save</button>
 	</div>
 
+  
   <!-- display the user's name by accessing the user object embedded in the post -->
+  <h3>Author: <span ng-hide="editFormClicked">{{author.username}}</span>
+  <input ng-show="editFormClicked" ng-model="author.username"></input></h3>
+
 
   <!-- display the post body -->
-	<p></p>
+  <h3><u>Post</u></h3>
+	<p ng-hide="editFormClicked">{{post.body}}</p>
+  <textarea ng-show="editFormClicked" ng-model="post.body"></textarea>
 
 	<a ui-sref="main">Back to All Posts</a>
 

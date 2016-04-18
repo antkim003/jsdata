@@ -22,12 +22,23 @@ module.exports = {
     .then(null, next)
   },
 
+  update: function(req, res, next) {
+    console.log('req.body = ', req.body);
+    Post.update({id: req.params.id}, req.body)
+      .then(function(updatedPost) {
+        console.log('heres the updated post', updatedPost)
+        res.json(updatedPost);
+      })
+      .then(null, next);
+  },
+
   create: function(req, res, next){
     Post.create(req.body)
     .then(function(article) {
       res.json(article);
     })
-    .then(null, next)
+    .catch(console.error);
+    // .then(null, next)
   }, 
   destroy: function(req, res, next){
     Post.remove({_id: req.params.id})
