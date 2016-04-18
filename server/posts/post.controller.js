@@ -24,10 +24,23 @@ module.exports = {
 
   update: function(req, res, next) {
     console.log('req.body = ', req.body);
-    Post.update({id: req.params.id}, req.body)
-      .then(function(updatedPost) {
-        console.log('heres the updated post', updatedPost)
-        res.json(updatedPost);
+    var __post;
+    Post.findById(req.params.id)
+      .then(function(post) {
+        post.body = req.body.body;
+        post.title = req.body.title;
+        return post.save();
+      })
+      .then(function(_post){
+        __post = _post;
+        return User.findById(_post.author)        
+      })
+      .then(function(author) {
+        author.username = req.body.name;
+        return author.save();
+      })
+      .then(function(author) {
+        res.json(__post);
       })
       .then(null, next);
   },
@@ -37,8 +50,7 @@ module.exports = {
     .then(function(article) {
       res.json(article);
     })
-    .catch(console.error);
-    // .then(null, next)
+    .then(null, next)
   }, 
   destroy: function(req, res, next){
     Post.remove({_id: req.params.id})

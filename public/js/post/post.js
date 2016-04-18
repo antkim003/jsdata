@@ -42,24 +42,16 @@ app.controller('PostCtrl', function($scope, $stateParams, Post, User) {
 	}
 	$scope.savePost = function() {
 		var postObj = {
-			idAttribute: $stateParams.postId,
 			title: $scope.post.title,
 			name: $scope.author.username,
-			body: $scope.post.body		
+			body: $scope.post.body
 		};		
-		console.log("heres the editform's postObj ", postObj);
 
 		Post.update($stateParams.postId, postObj)
 			.then(function(updatedPost) {
-				debugger;
+				alert('post has been updated!');
+				$scope.editFormClicked = false;
 			});
-		// Post.find($stateParams.postId)	
-		// 	.then(function(post) {
-		// 		return Post.update(post._id, {title: 'hello'})
-		// 	})
-		// 	.then(function() {
-		// 		console.log('i dont understand');
-		// 	});
 			
 	}
 	
